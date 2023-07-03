@@ -15,7 +15,8 @@ class BlogList extends Component {
 
   getBlogsData = async () => {
     const response = await fetch('https://apis.ccbp.in/blogs')
-    const formattedData = response.map(eachItem => ({
+    const data = await response.json()
+    const formattedData = data.map(eachItem => ({
       id: eachItem.id,
       title: eachItem.title,
       imageUrl: eachItem.image_url,
@@ -32,13 +33,13 @@ class BlogList extends Component {
     return (
       <div className="blogs-list-container">
         {isLoading ? (
-          <div data-testid="loder">
+          <div data-testid="loader">
             <Loader type="TailSpin" color="#00bfff" height={50} width={50} />
           </div>
         ) : (
           <ul className="blogs-list">
             {blogsData.map(eachBlogItem => (
-              <BlogItem blogItemDetails={eachBlogItem} key={eachBlogItem.id} />
+              <BlogItem key={eachBlogItem.id} blogItemDetails={eachBlogItem} />
             ))}
           </ul>
         )}
